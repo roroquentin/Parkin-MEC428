@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct ParkinApp: App {
     var body: some Scene {
+
         WindowGroup {
             ContentView()
         }
