@@ -16,124 +16,138 @@ struct Login: View {
     @State var color = Color.black.opacity(0.7)
     @State var alert = false
     @State var error = ""
+    @Binding var show : Bool
 
     
     var body: some View {
         
-        VStack{
-            Image("tdu")
+        ZStack {
             
-            HStack{
-                Image("fev")
-                Spacer()
-                Image("tubitak")
-            }
-            .padding()
-            
-            Text("MEC428 - Intelligente Systeme")
-                .font(.system(size: 20))
-                .padding(2)
-            Text("Parkleitinformationssystem Projekt")
-                .font(.system(size: 20))
-                .padding(2)
-            
-            TextField("E-Mail", text: self.$email)
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 15).stroke(self.email != "" ? Color("Color") : self.color, lineWidth: 2))
-                .padding(.top, 25)
-            
-            HStack(spacing: 15){
+            ZStack(alignment: .topTrailing) {
                 
                 VStack{
                     
-                    if self.visible {
+                    Image("tdu")
+                    
+                    HStack{
+                        Image("fev")
+                        Spacer()
+                        Image("tubitak")
+                    }
+                    .padding()
+                    
+                    Text("MEC428 - Intelligente Systeme")
+                        .font(.system(size: 20))
+                        .padding(2)
+                    Text("Parkleitinformationssystem Projekt")
+                        .font(.system(size: 20))
+                        .padding(2)
+                    
+                    TextField("E-Mail", text: self.$email)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 15).stroke(self.email != "" ? Color("Color") : self.color, lineWidth: 2))
+                        .padding(.top, 25)
+                    
+                    HStack(spacing: 15){
                         
-                        TextField("Passwort", text: self.$password)
-                            .autocapitalization(.none)
+                        VStack{
+                            
+                            if self.visible {
+                                
+                                TextField("Passwort", text: self.$password)
+                                    .autocapitalization(.none)
+                                
+                            }else{
+                                
+                                SecureField("Passwort", text: self.$password)
+                                    .autocapitalization(.none)
+                                
+                            }
+                        }
                         
-                    }else{
+                        Button(action: {
+                            
+                            self.visible.toggle()
+                            
+                        }) {
+                            
+                            Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
+                                .foregroundColor(self.color)
+                            
+                        }
+                    }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 15).stroke(self.password != "" ? Color("Color") :
+                                                                            self.color, lineWidth: 2))
+                    .padding(.top, 25)
+                    
+                    HStack{
                         
-                        SecureField("Passwort", text: self.$password)
-                            .autocapitalization(.none)
+                        Spacer()
+                        
+                        Button(action:  {
+                            
+                            self.reset()
+                            
+                        }) {
+                            
+                            Text("Passwort vergessen?")
+                                .font(.system(size: 15))
+                                .fontWeight(.bold)
+                                .foregroundColor(Color("Color"))
+                            
+                        }
                         
                     }
-                }
-                
-                Button(action: {
+                    .padding(.top, 10)
                     
-                    self.visible.toggle()
-                    
-                }) {
-                    
-                    Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
-                        .foregroundColor(self.color)
-                    
-                }
-            }
-            .padding()
-            .background(RoundedRectangle(cornerRadius: 15).stroke(self.password != "" ? Color("Color") :
-                                                                    self.color, lineWidth: 2))
-            .padding(.top, 25)
-            
-            HStack{
-                
-                Spacer()
-                
-                Button(action:  {
+                    Button(action: {
+                        
+                        self.verify()
+                        
+                    }) {
+                        
+                        Text("Anmelden")
+                            .foregroundColor(.white)
+                            .padding(.vertical)
+                            .frame(width: UIScreen.main.bounds.width - 150)
+                        
+                    }
+                    .background(Color("Color"))
+                    .cornerRadius(15)
+                    .padding(.top, 25)
                     
                     
-                    
-                }) {
-                    
-                    Text("Passwort vergessen?")
-                        .font(.system(size: 15))
-                        .fontWeight(.bold)
-                        .foregroundColor(Color("Color"))
-                    
-                }
-                
-            }
-            .padding(.top, 10)
-            
-            Button(action: {
-                
-                self.verify()
-                
-            }) {
-                
-                Text("Anmelden")
-                    .foregroundColor(.white)
-                    .padding(.vertical)
-                    .frame(width: UIScreen.main.bounds.width - 150)
-                
-            }
-            .background(Color("Color"))
-            .cornerRadius(15)
-            .padding(.top, 25)
-            
-            
-            HStack{
-                
-                Spacer()
-                
-                Button(action: {
-                    
-                    self.reset()
-                    
-                }) {
-                    
-                    Text("Ich habe noch keine Account.")
-                        .font(.system(size: 15))
-                        .fontWeight(.bold)
-                        .foregroundColor(Color("Color"))
+                    HStack{
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            
+                            self.show.toggle()
+                            
+                        }) {
+                            
+                            Text("Ich habe noch keine Account.")
+                                .font(.system(size: 15))
+                                .fontWeight(.bold)
+                                .foregroundColor(Color("Color"))
+                            
+                        }
+                        
+                    }
+                    .padding(.top, 25)
                     
                 }
-                
+                .padding()
             }
-            .padding(.top, 25)
+        }
+        
+        if self.alert{
+            
+            Error(alert: self.$alert, error: self.$error)
             
         }
-        .padding()
     }
     
     func verify(){
@@ -193,6 +207,6 @@ struct Login: View {
 
 struct Login_Previews: PreviewProvider {
     static var previews: some View {
-        Login()
+        Login(show: .constant(false))
     }
 }

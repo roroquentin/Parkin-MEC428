@@ -15,6 +15,8 @@
 		7266D29627415D5300B0E080 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7266D29527415D5300B0E080 /* Login.swift */; };
 		7292C014274221AF00E57D7B /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7292C013274221AF00E57D7B /* SignUp.swift */; };
 		7292C0162742282F00E57D7B /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7292C0152742282F00E57D7B /* Error.swift */; };
+		7292C0182742298000E57D7B /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7292C0172742298000E57D7B /* Home.swift */; };
+		7292C01A27422D9B00E57D7B /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7292C01927422D9B00E57D7B /* Map.swift */; };
 		BF6E9B86F6FDB4CD504D7F62 /* Pods_Parkin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4247C55C42C68110CF9E6455 /* Pods_Parkin.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +33,8 @@
 		7266D2972741667400B0E080 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7292C013274221AF00E57D7B /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
 		7292C0152742282F00E57D7B /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		7292C0172742298000E57D7B /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		7292C01927422D9B00E57D7B /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		DCF16B681C041353CD1F3666 /* Pods-Parkin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Parkin.release.xcconfig"; path = "Target Support Files/Pods-Parkin/Pods-Parkin.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,8 +82,10 @@
 				7266D2972741667400B0E080 /* Info.plist */,
 				725848E92739A564006D4FF8 /* ParkinApp.swift */,
 				725848EB2739A564006D4FF8 /* ContentView.swift */,
+				7292C0172742298000E57D7B /* Home.swift */,
 				7266D29527415D5300B0E080 /* Login.swift */,
 				7292C013274221AF00E57D7B /* SignUp.swift */,
+				7292C01927422D9B00E57D7B /* Map.swift */,
 				7292C0152742282F00E57D7B /* Error.swift */,
 				725848F72739B296006D4FF8 /* GoogleService-Info.plist */,
 				725848ED2739A566006D4FF8 /* Assets.xcassets */,
@@ -223,7 +229,9 @@
 				7266D29627415D5300B0E080 /* Login.swift in Sources */,
 				7292C014274221AF00E57D7B /* SignUp.swift in Sources */,
 				725848EC2739A564006D4FF8 /* ContentView.swift in Sources */,
+				7292C01A27422D9B00E57D7B /* Map.swift in Sources */,
 				7292C0162742282F00E57D7B /* Error.swift in Sources */,
+				7292C0182742298000E57D7B /* Home.swift in Sources */,
 				725848EA2739A564006D4FF8 /* ParkinApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

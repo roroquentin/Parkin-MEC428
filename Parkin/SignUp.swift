@@ -18,114 +18,149 @@ struct SignUp: View {
     @State var color = Color.black.opacity(0.7)
     @State var alert = false
     @State var error = ""
+    @Binding var show : Bool
     
     var body: some View {
        
-        VStack{
-        
-            Image("tdu")
-                .padding(.bottom, 50)
+        ZStack() {
             
-            Text("Lassen Sie uns den nächstgelegenen")
-                .font(.system(size: 20))
-                .padding(2)
-            Text("Parkplatz für Sie finden.")
-                .font(.system(size: 20))
-                .padding(2)
-            
-            Text("Parkleitinformationssystem Projekt")
-                .font(.system(size: 23))
-                .fontWeight(.bold)
-            
-            TextField("E-Mail", text: self.$email)
+            ZStack(alignment: .topLeading){
+                
+                VStack{
+                
+                    Image("tdu")
+                        .padding()
+                    
+                    Text("Lassen Sie uns den nächstgelegenen")
+                        .font(.system(size: 20))
+                        .padding(2)
+                    Text("Parkplatz für Sie finden.")
+                        .font(.system(size: 20))
+                        .padding(2)
+                    
+                    Text("Parkleitinformationssystem Projekt")
+                        .font(.system(size: 23))
+                        .fontWeight(.bold)
+                    
+                    TextField("E-Mail", text: self.$email)
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 15).stroke(self.email != "" ? Color("Color") : self.color, lineWidth: 2))
+                        .padding(.top, 25)
+                    
+                    HStack(spacing: 15){
+                        
+                        VStack{
+                            
+                            if self.visible {
+                                
+                                TextField("Passwort", text: self.$password)
+                                    .autocapitalization(.none)
+                                
+                            }else{
+                                
+                                SecureField("Passwort", text: self.$password)
+                                    .autocapitalization(.none)
+                                
+                            }
+                        }
+                        
+                        Button(action: {
+                            
+                            self.visible.toggle()
+                            
+                        }) {
+                            
+                            Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
+                                .foregroundColor(self.color)
+                            
+                        }
+                    }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 15).stroke(self.password != "" ? Color("Color") :
+                                                                            self.color, lineWidth: 2))
+                    .padding(.top, 25)
+                    
+                    HStack(spacing: 15){
+                        
+                        VStack{
+                            
+                            if self.revisible {
+                                
+                                TextField("Re-Passwort", text: self.$repassword)
+                                    .autocapitalization(.none)
+                                
+                            }else{
+                                
+                                SecureField("Re-Passwort", text: self.$repassword)
+                                    .autocapitalization(.none)
+                                
+                            }
+                        }
+                        
+                        Button(action: {
+                            
+                            self.revisible.toggle()
+                            
+                        }) {
+                            
+                            Image(systemName: self.revisible ? "eye.slash.fill" : "eye.fill")
+                                .foregroundColor(self.color)
+                            
+                        }
+                    }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 15).stroke(self.repassword != "" ? Color("Color") :
+                                                                            self.color, lineWidth: 2))
+                    .padding(.top, 25)
+                    
+                    Button(action: {
+                        
+                        self.register()
+                        
+                    }) {
+                        
+                        Text("Anmelden")
+                            .foregroundColor(.white)
+                            .padding(.vertical)
+                            .frame(width: UIScreen.main.bounds.width - 150)
+                        
+                    }
+                    .background(Color("Color"))
+                    .cornerRadius(15)
+                    .padding(.top, 25)
+                    
+                    
+                }
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 15).stroke(self.email != "" ? Color("Color") : self.color, lineWidth: 2))
-                .padding(.top, 25)
-            
-            HStack(spacing: 15){
                 
-                VStack{
-                    
-                    if self.visible {
-                        
-                        TextField("Passwort", text: self.$password)
-                            .autocapitalization(.none)
-                        
-                    }else{
-                        
-                        SecureField("Passwort", text: self.$password)
-                            .autocapitalization(.none)
-                        
-                    }
-                }
                 
                 Button(action: {
                     
-                    self.visible.toggle()
+                    self.show.toggle()
                     
                 }) {
                     
-                    Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
-                        .foregroundColor(self.color)
+                    Image(systemName: "chevron.left")
+                        .font(.title)
+                        .foregroundColor(Color("Color"))
                     
                 }
+                .padding([.leading, .bottom])
+                .frame(width: 20)
+                
+                
+                
             }
-            .padding()
-            .background(RoundedRectangle(cornerRadius: 15).stroke(self.password != "" ? Color("Color") :
-                                                                    self.color, lineWidth: 2))
-            .padding(.top, 25)
+        }
+        .navigationBarBackButtonHidden(true)
+        .padding(.bottom, 75)
+        
+        if self.alert{
             
-            HStack(spacing: 15){
-                
-                VStack{
-                    
-                    if self.revisible {
-                        
-                        TextField("Re-Passwort", text: self.$repassword)
-                            .autocapitalization(.none)
-                        
-                    }else{
-                        
-                        SecureField("Re-Passwort", text: self.$repassword)
-                            .autocapitalization(.none)
-                        
-                    }
-                }
-                
-                Button(action: {
-                    
-                    self.revisible.toggle()
-                    
-                }) {
-                    
-                    Image(systemName: self.revisible ? "eye.slash.fill" : "eye.fill")
-                        .foregroundColor(self.color)
-                    
-                }
-            }
-            .padding()
-            .background(RoundedRectangle(cornerRadius: 15).stroke(self.repassword != "" ? Color("Color") :
-                                                                    self.color, lineWidth: 2))
-            .padding(.top, 25)
-            
-            Button(action: {
-                
-                self.register()
-                
-            }) {
-                
-                Text("Anmelden")
-                    .foregroundColor(.white)
-                    .padding(.vertical)
-                    .frame(width: UIScreen.main.bounds.width - 150)
-                
-            }
-            .background(Color("Color"))
-            .cornerRadius(15)
-            .padding(.top, 25)
+            Error(alert: self.$alert, error: self.$error)
             
         }
-        .padding()
+        
     }
     
     func register(){
@@ -165,6 +200,6 @@ struct SignUp: View {
 
 struct SignUp_Previews: PreviewProvider {
     static var previews: some View {
-        SignUp()
+        SignUp(show: .constant(false))
     }
 }
