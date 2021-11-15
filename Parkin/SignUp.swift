@@ -1,41 +1,41 @@
 //
-//  Login.swift
+//  SignUp.swift
 //  Parkin
 //
-//  Created by Hasan Güzelmansur on 14.11.2021.
+//  Created by Hasan Güzelmansur on 15.11.2021.
 //
 
 import SwiftUI
 import Firebase
 
-struct Login: View {
+struct SignUp: View {
     
     @State var email = ""
     @State var password = ""
     @State var visible = false
+    @State var repassword = ""
+    @State var revisible = false
     @State var color = Color.black.opacity(0.7)
     @State var alert = false
     @State var error = ""
-
     
     var body: some View {
-        
+       
         VStack{
+        
             Image("tdu")
+                .padding(.bottom, 50)
             
-            HStack{
-                Image("fev")
-                Spacer()
-                Image("tubitak")
-            }
-            .padding()
-            
-            Text("MEC428 - Intelligente Systeme")
+            Text("Lassen Sie uns den nächstgelegenen")
                 .font(.system(size: 20))
                 .padding(2)
+            Text("Parkplatz für Sie finden.")
+                .font(.system(size: 20))
+                .padding(2)
+            
             Text("Parkleitinformationssystem Projekt")
-                .font(.system(size: 20))
-                .padding(2)
+                .font(.system(size: 23))
+                .fontWeight(.bold)
             
             TextField("E-Mail", text: self.$email)
                 .padding()
@@ -75,29 +75,42 @@ struct Login: View {
                                                                     self.color, lineWidth: 2))
             .padding(.top, 25)
             
-            HStack{
+            HStack(spacing: 15){
                 
-                Spacer()
+                VStack{
+                    
+                    if self.revisible {
+                        
+                        TextField("Re-Passwort", text: self.$repassword)
+                            .autocapitalization(.none)
+                        
+                    }else{
+                        
+                        SecureField("Re-Passwort", text: self.$repassword)
+                            .autocapitalization(.none)
+                        
+                    }
+                }
                 
-                Button(action:  {
+                Button(action: {
                     
-                    
+                    self.revisible.toggle()
                     
                 }) {
                     
-                    Text("Passwort vergessen?")
-                        .font(.system(size: 15))
-                        .fontWeight(.bold)
-                        .foregroundColor(Color("Color"))
+                    Image(systemName: self.revisible ? "eye.slash.fill" : "eye.fill")
+                        .foregroundColor(self.color)
                     
                 }
-                
             }
-            .padding(.top, 10)
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 15).stroke(self.repassword != "" ? Color("Color") :
+                                                                    self.color, lineWidth: 2))
+            .padding(.top, 25)
             
             Button(action: {
                 
-                self.verify()
+                self.register()
                 
             }) {
                 
@@ -111,88 +124,47 @@ struct Login: View {
             .cornerRadius(15)
             .padding(.top, 25)
             
-            
-            HStack{
-                
-                Spacer()
-                
-                Button(action: {
-                    
-                    self.reset()
-                    
-                }) {
-                    
-                    Text("Ich habe noch keine Account.")
-                        .font(.system(size: 15))
-                        .fontWeight(.bold)
-                        .foregroundColor(Color("Color"))
-                    
-                }
-                
-            }
-            .padding(.top, 25)
-            
         }
         .padding()
     }
     
-    func verify(){
+    func register(){
         
-        if self.email != "" && self.password != "" {
+        if self.email != "" {
             
-            Auth.auth().signIn(withEmail: self.email, password: self.password) { res, error in
+            if self.password == self.repassword {
                 
-                if error != nil {
+                Auth.auth().createUser(withEmail: self.email, password: self.password) { (res, err) in
                     
-                    self.error = error!.localizedDescription
-                    self.alert.toggle()
-                    return
+                    if err != nil{
+                        
+                        self.error = err!.localizedDescription
+                        self.alert.toggle()
+                        return
+                        
+                    }
+                    
+                    UserDefaults.standard.set(true, forKey: "status")
+                    NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
+                    
                 }
                 
-                UserDefaults.standard.set(true, forKey: "status")
-                NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
+            }else{
                 
+                self.error = "Password mismatch"
+                self.alert.toggle()
             }
-            
         }else{
-            
+         
             self.error = "Please fill all the contents properly"
             self.alert.toggle()
-        }
-        
-    }
-    
-    func reset(){
-        
-        if self.email != ""{
-            
-            Auth.auth().sendPasswordReset(withEmail: self.email) { (err) in
-                
-                if err != nil {
-                    
-                    self.error = err!.localizedDescription
-                    self.alert.toggle()
-                    return
-                    
-                }
-                
-                self.error = "RESET"
-                self.alert.toggle()
-                
-            }
-            
-        }else{
-            
-            self.error = "Email is empty"
-            self.alert.toggle()
             
         }
-        
     }
 }
 
-struct Login_Previews: PreviewProvider {
+struct SignUp_Previews: PreviewProvider {
     static var previews: some View {
-        Login()
+        SignUp()
     }
 }
